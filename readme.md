@@ -2,7 +2,7 @@
 
 Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 
-###Current Version 1.3
+###Current Version 1.4
 
 ### Todo List 
 
@@ -40,17 +40,17 @@ Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 
 [] Ask if they want
 
-  [] Ninja Forms
+  [DONE] Ninja Forms
 
-  [] Responsive-menu
+  [DONE] Responsive-menu
 
-  [] User-role-editor
+  [DONE] User-role-editor
 
   [] BX Slider from ZIP
 
-  [] Multiple Content Blocks
+  [DONE] Multiple Content Blocks
 
-  [] Multiple Custom Fields
+  [DONE] Advanced Custom Fields
 
 [] Check if the sites folder exists
 
@@ -63,6 +63,17 @@ Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 [] Give the user the chance to set the admin username, email and password
 
 [] Give the user the chance to set the DB passwords etc
+
+[] Ask for the Git Credentials
+
+###Version 1.4
+
+1. Ask the user if they want Ninja Forms plugin
+2. Ask the user if they want Responsive Menu plugin
+3. Ask the user if they want User Role Editor plugin
+4. Ask the user if they want Multiple Content Blocks plugin
+5. Ask the user if they want Advanced Custom Fields plugin
+6. Fix test mode to remove everything from the previous installation
 
 ##Version 1.3
 

@@ -9,15 +9,8 @@ baseFolder="sites/"
 themeName="elem"
 
 testMode=true
-##
+
 ##################################################
-
-
-
-# echo "$(whoami)"
-# finger $(whoami) | awk '/Name:/ {print $4" "$5}'
-
-
 
 clear
 
@@ -28,14 +21,13 @@ echo "Vagrant and VirtualBox must be installed"
 echo ""
 echo ""
 echo "The site will be configured in ~/sites/whatever you want"
-
-
+echo ""
 
 #Find out what the site should be called
-echo "Please enter the name of your site (Lowercase no spaces):"
-read -p "Site Name: " siteName
+echo "Please enter the name of your site (Lowercase no spaces)"
+read -p "Site Name:  (Default = InstaPress) " siteName
 #Set the default site name to Elemental
-siteName=${siteName:-Elemental}
+siteName=${siteName:-InstaPress}
 
 ##Convert the site name to lower case
 siteName="$( echo $siteName | awk '{print tolower($0)}')"
@@ -44,22 +36,38 @@ siteName="$( echo ${siteName// /-})"
 
 
 #Get the name of the theme to be created.
-read -p "Theme Name: " themeName
+read -p "Theme Name: (Default = InstaPress) " themeName
 #Set the default site name to Elemental
-themeName=${themeName:-Elemental}
+themeName=${themeName:-InstaPress}
 
 ##Convert the site name to lower case
 themeNameLower="$( echo $themeName | awk '{print tolower($0)}')"
 ##Convert the string to remove spaces and replace with -'s
 themeNameLower="$( echo ${themeNameLower// /-})"
 
+##Does the user want the ninja forms plugin?
+read -p "Install the Ninja Forms plugin? Type 'no' or just hit enter to install " pluginNinjaForms
+pluginNinjaForms=${pluginNinjaForms:-yes}
 
+##Does the user want the responsive menu plugin?
+read -p "Install the Responsive Menu plugin? Type 'no' or just hit enter to install " pluginResponsiveMenu
+pluginResponsiveMenu=${pluginResponsiveMenu:-yes}
 
+##Does the user want the user role editor plugin?
+read -p "Install the User Role Editor plugin? Type 'no' or just hit enter to install " pluginUserRoleEditor
+pluginUserRoleEditor=${pluginUserRoleEditor:-yes}
 
+##Does the user want the Multiple Content Blocks plugin?
+read -p "Install the Multiple Content Blocks plugin? Type 'no' or just hit enter to install " pluginMCB
+pluginMCB=${pluginMCB:-yes}
 
+##Does the user want the Advanced Custom Fields plugin?
+read -p "Install the Advanced Custom Fields plugin? Type 'no' or just hit enter to install " pluginACF
+pluginACF=${pluginACF:-yes}
 
-
-
+##Ask if were allowed to remove hello dolly?
+read -p "Remove the Hello Dolly plugin? Type 'no' to keep or just hit enter to remove " pluginDolly
+pluginDolly=${pluginDolly:-yes}
 
 
 
@@ -75,8 +83,10 @@ if [ -d "$baseFolder$siteName" ]; then
 
     echo "But, this is test mode so. Onwards!"
 
+    cd "$baseFolder$siteName"
     vagrant halt
     vagrant destroy
+    cd ../../
     rm -rf $baseFolder$siteName
 
   else
@@ -105,6 +115,10 @@ git remote rm origin
 ## Bring the box up
 vagrant up
 
+## Remove the old git and gitignore
+rm  -rf .git
+rm .gitignore
+
 echo ""
 echo "Vagrant box running"
 
@@ -114,9 +128,6 @@ echo ""
 
 ##Move to the public folder
 cd public
-
-##Start a git repo
-git init
 
 ## Curl down the CLI tool
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -172,16 +183,63 @@ echo ""
 echo "Install plugins"
 echo ""
 
-vagrant ssh -- "cd /var/www/public
-php wp-cli.phar plugin install ninja-forms --activate"
+#If the user chose to install the ninja forms plugin
+if [ $pluginNinjaForms = "yes" ]; then
+  echo ""
+  echo "Ninja Forms will be installed"
+  echo ""
+  vagrant ssh -- "cd /var/www/public
+  php wp-cli.phar plugin install ninja-forms --activate"
+fi
 
-vagrant ssh -- "cd /var/www/public
-php wp-cli.phar plugin install responsive-menu --activate"
+#If the user chose to install the responsive menu plugin
+if [ $pluginResponsiveMenu = "yes" ]; then
+  echo ""
+  echo "Responsive Menu will be installed"
+  echo ""
+  vagrant ssh -- "cd /var/www/public
+  php wp-cli.phar plugin install responsive-menu --activate"
+fi
 
-vagrant ssh -- "cd /var/www/public
-php wp-cli.phar plugin install user-role-editor --activate"
+#If the user chose to install the user role editor
+if [ $pluginUserRoleEditor = "yes" ]; then
+  echo ""
+  echo "User Role Editor will be installed"
+  echo ""
+  vagrant ssh -- "cd /var/www/public
+  php wp-cli.phar plugin install user-role-editor --activate"
+fi
+
+#If the user chose to install the multiple content blocks
+if [ $pluginMCB = "yes" ]; then
+  echo ""
+  echo "Multiple Content Blocks will be installed"
+  echo ""
+  vagrant ssh -- "cd /var/www/public
+  php wp-cli.phar plugin install multiple-content-blocks --activate"
+fi
+
+#If the user chose to install the Advanced Custom Fields
+if [ $pluginMCB = "yes" ]; then
+  echo ""
+  echo "Advanced Custom Fields will be installed"
+  echo ""
+  vagrant ssh -- "cd /var/www/public
+  php wp-cli.phar plugin install advanced-custom-fields --activate"
+fi
+
+#Can we remove the hello dolly plugin?
+if [ $pluginDolly = "yes" ]; then
+  echo ""
+  echo "Removing the Hello Dolly plugin"
+  echo ""
+  vagrant ssh -- "cd /var/www/public
+  php wp-cli.phar plugin delete hello"
+fi
 
 
+##Move up the file structure to create the git shit
+cd ../../
 
 ##Build a .gitignore file
 echo ".idea
@@ -193,6 +251,7 @@ node_modules/
 " > .gitignore
 
 ## Build a basic git repo
+git init
 git config --global user.name "Lyle Barras"
 git config --global user.email lyle.barras@barrasweb.co.uk
 git config --global core.editor nano
@@ -206,10 +265,8 @@ git commit -m "Initial commit using InstaPress"
 
 
 ## Final step is to add a hosts file.
-# echo "192.168.33.10    $siteName.dev" | pbcopy
-# sudo nano /etc/hosts
-
 sudo sh -c "echo '192.168.33.10' $siteName.dev >> /etc/hosts" 
 
+## Open the two tabs with the site and the admin
 open http://$siteName.dev
 open http://$siteName.dev/wp-admin
