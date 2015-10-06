@@ -14,7 +14,7 @@ testMode=true
 
 ### TODO 
 # DONE Ask the user what they would like the site to be called.
-#Whip it down to lowercase and no spaces.
+# DONE Whip it down to lowercase and no spaces.
 # DONE Check that the ~/sites folder exists.
 # DONE Check that a folder with the same name that they entered doesnt exist.
 # DONE Clone Scotchbox
@@ -25,8 +25,8 @@ testMode=true
 # DONE Create a new GIT Repo
 # DONE Ninja Forms plugin
 # DONE Launch the URL using - open -a safari http://www.example.com / BETTER open http://brettterpstra.com
+# DONE Append the URL / IP to the end of the Hosts file
 
-#Append the URL / IP to the end of the Hosts file
 #Install GULP and dependancies
 #Update any plugins at start
 
@@ -48,6 +48,13 @@ echo "The site will be configured in ~/sites/whatever you want"
 #Find out what the site should be called
 echo "Please enter the name of your site (Lowercase no spaces):"
 read siteName
+
+##Convert the site name to lower case
+siteName="$( echo $siteName | awk '{print tolower($0)}')"
+
+##Convert the string to remove spaces and replace with -'s
+siteName="$( echo ${siteName// /-})"
+
 
 ## Jump to the user home folder.
 cd ~
@@ -159,12 +166,13 @@ echo "Install plugins"
 echo ""
 
 vagrant ssh -- "cd /var/www/public
-
 php wp-cli.phar plugin install ninja-forms --activate"
 
 vagrant ssh -- "cd /var/www/public
-
 php wp-cli.phar plugin install responsive-menu --activate"
+
+vagrant ssh -- "cd /var/www/public
+php wp-cli.phar plugin install user-role-editor --activate"
 
 
 
@@ -191,7 +199,10 @@ git commit -m "Initial commit using InstaPress"
 
 
 ## Final step is to add a hosts file.
-echo "192.168.33.10    $siteName.dev" | pbcopy
-sudo nano /etc/hosts
+# echo "192.168.33.10    $siteName.dev" | pbcopy
+# sudo nano /etc/hosts
+
+sudo sh -c "echo '192.168.33.10' $siteName.dev/wp-admin >> /etc/hosts" 
+sudo sh -c "echo '192.168.33.10' $siteName.dev >> /etc/hosts" 
 
 open http://$siteName.dev
