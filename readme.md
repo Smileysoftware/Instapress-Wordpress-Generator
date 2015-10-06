@@ -28,7 +28,7 @@ Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 
 [DONE] Ninja Forms plugin
 
-[DONE] Launch the URL using - open -a safari http://www.example.com / BETTER open http://brettterpstra.com
+[DONE] Launch the URL using - open -a 
 
 [DONE] Append the URL / IP to the end of the Hosts file
 
