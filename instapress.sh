@@ -12,32 +12,7 @@ testMode=true
 ##
 ##################################################
 
-### TODO 
-# DONE Ask the user what they would like the site to be called.
-# DONE Whip it down to lowercase and no spaces.
-# DONE Check that the ~/sites folder exists.
-# DONE Check that a folder with the same name that they entered doesnt exist.
-# DONE Clone Scotchbox
-# DONE Remove the git remote for Scotchbox
-# DONE cUrl the WP-CLI tool.
-# DONE Install Wordpress
-# DONE Create a test theme
-# DONE Create a new GIT Repo
-# DONE Ninja Forms plugin
-# DONE Launch the URL using - open -a safari http://www.example.com / BETTER open http://brettterpstra.com
-# DONE Append the URL / IP to the end of the Hosts file
 
-#Set a default site name
-#Get the theme name
-#Ask if they want
-  #Ninja Forms
-  #Responsive-menu
-  #User-role-editor
-#Check if the sites folder exists
-
-
-#Install GULP and dependancies
-#Update any plugins at start
 
 # echo "$(whoami)"
 # finger $(whoami) | awk '/Name:/ {print $4" "$5}'
@@ -127,7 +102,6 @@ git clone https://github.com/scotch-io/scotch-box.git .
 ## Clean up the remotes
 git remote rm origin
 
-
 ## Bring the box up
 vagrant up
 
@@ -166,7 +140,8 @@ echo ""
 
 ##Lets build a new theme
 cd wp-content/themes/
-mkdir $themeName
+mkdir $themeNameLower
+cd $themeNameLower
 
 echo "/*
 Theme Name: $themeName
@@ -188,7 +163,7 @@ echo ""
 
 vagrant ssh -- "cd /var/www/public
 
-php wp-cli.phar theme activate $themeName"
+php wp-cli.phar theme activate $themeNameLower"
 
 echo ""
 echo "New theme enabled"
@@ -234,7 +209,7 @@ git commit -m "Initial commit using InstaPress"
 # echo "192.168.33.10    $siteName.dev" | pbcopy
 # sudo nano /etc/hosts
 
-sudo sh -c "echo '192.168.33.10' $siteName.dev/wp-admin >> /etc/hosts" 
 sudo sh -c "echo '192.168.33.10' $siteName.dev >> /etc/hosts" 
 
 open http://$siteName.dev
+open http://$siteName.dev/wp-admin

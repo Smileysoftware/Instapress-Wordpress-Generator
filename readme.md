@@ -2,6 +2,8 @@
 
 Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 
+###Current Version 1.3
+
 ### Todo List 
 
 [DONE] Ask the user what they would like the site to be called.
@@ -57,6 +59,16 @@ Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 [] Update any plugins at start
 
 [] Git add and commit the first chunk
+
+[] Give the user the chance to set the admin username, email and password
+
+[] Give the user the chance to set the DB passwords etc
+
+##Version 1.3
+
+1. Fix the location of the theme creation
+2. Ensure the theme is created properly - Bugfix
+3. Add more todos to the list :-(
 
 ##Version 1.2
 
