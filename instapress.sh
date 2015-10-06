@@ -27,6 +27,15 @@ testMode=true
 # DONE Launch the URL using - open -a safari http://www.example.com / BETTER open http://brettterpstra.com
 # DONE Append the URL / IP to the end of the Hosts file
 
+#Set a default site name
+#Get the theme name
+#Ask if they want
+  #Ninja Forms
+  #Responsive-menu
+  #User-role-editor
+#Check if the sites folder exists
+
+
 #Install GULP and dependancies
 #Update any plugins at start
 
@@ -45,18 +54,41 @@ echo ""
 echo ""
 echo "The site will be configured in ~/sites/whatever you want"
 
+
+
 #Find out what the site should be called
 echo "Please enter the name of your site (Lowercase no spaces):"
-read siteName
+read -p "Site Name: " siteName
+#Set the default site name to Elemental
+siteName=${siteName:-Elemental}
 
 ##Convert the site name to lower case
 siteName="$( echo $siteName | awk '{print tolower($0)}')"
-
 ##Convert the string to remove spaces and replace with -'s
 siteName="$( echo ${siteName// /-})"
 
 
-## Jump to the user home folder.
+#Get the name of the theme to be created.
+read -p "Theme Name: " themeName
+#Set the default site name to Elemental
+themeName=${themeName:-Elemental}
+
+##Convert the site name to lower case
+themeNameLower="$( echo $themeName | awk '{print tolower($0)}')"
+##Convert the string to remove spaces and replace with -'s
+themeNameLower="$( echo ${themeNameLower// /-})"
+
+
+
+
+
+
+
+
+
+
+
+## Jump to the users home folder.
 cd ~
 
 ## Test to see if the folder exists.
@@ -133,7 +165,7 @@ echo ""
 
 
 ##Lets build a new theme
-cd wp-content/themes
+cd wp-content/themes/
 mkdir $themeName
 
 echo "/*
