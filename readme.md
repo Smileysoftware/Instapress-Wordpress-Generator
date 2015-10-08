@@ -2,7 +2,7 @@
 
 Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 
-###Current Version 1.4
+###Current Version 1.5
 
 ### Todo List 
 
@@ -65,6 +65,10 @@ Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 [] Give the user the chance to set the DB passwords etc
 
 [] Ask for the Git Credentials
+
+###Version 1.5
+
+1. Rename the script to remove the .sh extension because typing it is poo
 
 ###Version 1.4
 
