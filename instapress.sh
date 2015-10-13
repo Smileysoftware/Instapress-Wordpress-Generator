@@ -46,30 +46,47 @@ themeNameLower="$( echo $themeName | awk '{print tolower($0)}')"
 themeNameLower="$( echo ${themeNameLower// /-})"
 
 ##Does the user want the ninja forms plugin?
-read -p "Install the Ninja Forms plugin? Type 'no' or just hit enter to install " pluginNinjaForms
+read -p "Install the Ninja Forms plugin? Type 'n' or just hit enter to install " pluginNinjaForms
 pluginNinjaForms=${pluginNinjaForms:-yes}
 
 ##Does the user want the responsive menu plugin?
-read -p "Install the Responsive Menu plugin? Type 'no' or just hit enter to install " pluginResponsiveMenu
+read -p "Install the Responsive Menu plugin? Type 'n' or just hit enter to install " pluginResponsiveMenu
 pluginResponsiveMenu=${pluginResponsiveMenu:-yes}
 
 ##Does the user want the user role editor plugin?
-read -p "Install the User Role Editor plugin? Type 'no' or just hit enter to install " pluginUserRoleEditor
+read -p "Install the User Role Editor plugin? Type 'n' or just hit enter to install " pluginUserRoleEditor
 pluginUserRoleEditor=${pluginUserRoleEditor:-yes}
 
 ##Does the user want the Multiple Content Blocks plugin?
-read -p "Install the Multiple Content Blocks plugin? Type 'no' or just hit enter to install " pluginMCB
+read -p "Install the Multiple Content Blocks plugin? Type 'n' or just hit enter to install " pluginMCB
 pluginMCB=${pluginMCB:-yes}
 
 ##Does the user want the Advanced Custom Fields plugin?
-read -p "Install the Advanced Custom Fields plugin? Type 'no' or just hit enter to install " pluginACF
+read -p "Install the Advanced Custom Fields plugin? Type 'n' or just hit enter to install " pluginACF
 pluginACF=${pluginACF:-yes}
 
 ##Ask if were allowed to remove hello dolly?
-read -p "Remove the Hello Dolly plugin? Type 'no' to keep or just hit enter to remove " pluginDolly
+read -p "Remove the Hello Dolly plugin? Type 'n' to keep or just hit enter to remove " pluginDolly
 pluginDolly=${pluginDolly:-yes}
 
+##Ask if were allowed to remove hello dolly?
+read -p "Remove the Akismet plugin? Type 'n' to keep or just hit enter to remove " pluginAkismet
+pluginAkismet=${pluginAkismet:-yes}
 
+##Get the admin user details from the user
+read -p "Enter the admin username: (Default = admin) " adminUsername
+adminUsername=${adminUsername:-admin}
+
+read -p "Enter the admin password: (Default = letmein) " adminPassword
+adminPassword=${adminPassword:-letmein}
+
+read -p "Enter the admin email address: (Default = lyleyboy@gmail.com) " adminEmailAddress
+adminEmailAddress=${adminEmailAddress:-lyleyboy@gmail.com}
+
+
+############################################
+## Start doing things
+############################################
 
 ## Jump to the users home folder.
 cd ~
@@ -142,7 +159,7 @@ php wp-cli.phar core config --dbname=scotchbox --dbuser=root --dbpass=root'
 
 vagrant ssh -- "cd /var/www/public
 
-php wp-cli.phar core install --url=$siteName.dev --title=$siteName --admin_user=admin --admin_password=letmein --admin_email=lyleyboy@gmail.com"
+php wp-cli.phar core install --url=$siteName.dev --title=$siteName --admin_user=$adminUsername --admin_password=$adminPassword --admin_email=$adminEmailAddress"
 
 echo ""
 echo "Wordpress installation complete"
@@ -235,6 +252,15 @@ if [ $pluginDolly = "yes" ]; then
   echo ""
   vagrant ssh -- "cd /var/www/public
   php wp-cli.phar plugin delete hello"
+fi
+
+#Can we remove the Akismet plugin?
+if [ $pluginDolly = "yes" ]; then
+  echo ""
+  echo "Removing the Akismet plugin"
+  echo ""
+  vagrant ssh -- "cd /var/www/public
+  php wp-cli.phar plugin delete Akismet"
 fi
 
 

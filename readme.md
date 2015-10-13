@@ -58,13 +58,20 @@ Sexy tool to build Wordpress installations running on Vagrant in mere seconds.
 
 [] Update any plugins at start
 
-[] Git add and commit the first chunk
+[DONE] Git add and commit the first chunk
 
 [] Give the user the chance to set the admin username, email and password
 
 [] Give the user the chance to set the DB passwords etc
 
 [] Ask for the Git Credentials
+
+[DONE] Remove the Akismet plugin
+
+###Version 1.6
+
+1. Give the user the opportunity to remove the Akismet plugin
+2. Ask the user for their Wordpress admin users details
 
 ###Version 1.5
 
